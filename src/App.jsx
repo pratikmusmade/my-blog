@@ -1,13 +1,33 @@
-import './App.css'
+import "./App.css";
+import authService from "./appwrite/auth.js";
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { login, logout } from "./store/authSlice.js";
+import {Footer, Header} from "./components"
 
 function App() {
-  console.log(import.meta.env.VITE_APPWRITE_URL,import.meta.env.VITE_APPWRITE_PROJECT_ID);
-  console.log(import.meta.env.VITE_ggg);
-  return (
-    <>
-      <h1>Hello</h1>
-    </>
-  )
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const curre̥ntUser = authService.getCurrentUser();
+    curre̥ntUser
+      .then((userData) => {
+        if (userData) {
+          dispatch(login(userData));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  return loading ? null : <div>
+    <Header/>
+    <Footer/>
+  </div>;
 }
 
-export default App
+export default App;

@@ -3,9 +3,11 @@ import conf from "../conf/conf.js";
 import { Client, Account, ID } from "appwrite";
 
 export class AuthService {
+  //Variables 
   client = new Client();
   account;
 
+  //Insitilization
   constructor() {
     this.client
       .setEndpoint(conf.appwriteUrl)
@@ -13,6 +15,7 @@ export class AuthService {
     this.account = new Account(this.client);
   }
 
+  //Methods
   async createAccount({ email, password, name }) {
     try {
       const userAccount = await this.account.create(
