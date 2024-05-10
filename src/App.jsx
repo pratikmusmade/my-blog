@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { login, logout } from "./store/authSlice.js";
 import {Footer, Header} from "./components"
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,7 @@ function App() {
 
   return loading ? null : <div>
     <Header/>
+    <Outlet />
     <Footer/>
   </div>;
 }

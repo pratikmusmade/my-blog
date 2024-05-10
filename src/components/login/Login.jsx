@@ -7,24 +7,24 @@ import { useForm } from "react-hook-form";
 import authService from "../../appwrite/auth";
 
 function Login() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { register, handelSubmit } = useForm("");
-  const [error, setError] = useState("");
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const { register, handelSubmit } = useForm("");
+  // const [error, setError] = useState("");
 
-  const login = async (data) => {
-    setError("");
-    try {
-      const session = await authService.login(data);
-      console.log(` Login Session ::  ${session}`);
-      if (session) {
-        const userData = await authService.getCurrentUser();
-        console.log(` Current user Session ::  ${userData}`);
-        if (userData) dispatch(authLogin(userData));
-        navigate("/");
-      }
-    } catch (error) {}
-  };
+  // const login = async (data) => {
+  //   setError("");
+  //   try {
+  //     const session = await authService.login(data);
+  //     console.log(` Login Session ::  ${session}`);
+  //     if (session) {
+  //       const userData = await authService.getCurrentUser();
+  //       console.log(` Current user Session ::  ${userData}`);
+  //       if (userData) dispatch(authLogin(userData));
+  //       navigate("/");
+  //     }
+  //   } catch (error) {}
+  // };
 
   return (
     <div className="login-form-container">

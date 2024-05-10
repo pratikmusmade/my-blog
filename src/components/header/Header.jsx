@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const authStatus = useSelector((state) => state.auth.status);
+  // const authStatus = useSelector((state) => state.auth.status);
+  const authStatus = false
   const navigate = useNavigate();
 
   const navItems = [
@@ -35,6 +36,8 @@ function Header() {
       active: authStatus,
     },
   ];
+
+
   return (
     <header>
       <Container>
