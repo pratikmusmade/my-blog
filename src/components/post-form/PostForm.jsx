@@ -24,7 +24,8 @@ function PostForm({ post }) {
   });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.auth.userData);
+  console.log("userData => ",userData);
 
   const submitPosts = async (data) => {
     if (post) {
@@ -45,7 +46,7 @@ function PostForm({ post }) {
       }
     } else {
       const file = await appwriteService.uploadFile(data.image[0]);
-
+      console.log("UserData ==> ", userData);
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
@@ -53,7 +54,9 @@ function PostForm({ post }) {
           ...data,
           userId: userData.$id,
         });
-        navigate(`post/${dbPost.$id}`);
+        if (dbPost) {
+          navigate(`post/${dbPost.$id}`);
+        }
       }
     }
   };
@@ -62,8 +65,8 @@ function PostForm({ post }) {
     if (value && typeof value === "string") {
       return value
         .trim()
-        .toLocaleLowerCase()
-        .replace(/^[a-zA-Z\d\s]/g, "-")
+        .toLowerCase()
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
     }
     return "";
@@ -83,11 +86,12 @@ function PostForm({ post }) {
 
   return (
     <div>
-      <form action="">
+      <form onSubmit={handleSubmit(submitPosts)}>
         <Input
           lable="Title :"
           placeholder="Enter Title"
           className=""
+          
           {...register("title", { required: true })}
         />
 
@@ -103,8 +107,15 @@ function PostForm({ post }) {
           }}
         />
         <RTE
-          label="Content"
+          label="Content :"
+          name="content"
+          control={control}
+          defaultValue={getValues("content")}
+        />
+        <Input
+          label="Featured Image :"
           type="file"
+          className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
           {...register("image", { required: !post })}
         />

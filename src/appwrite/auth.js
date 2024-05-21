@@ -24,7 +24,7 @@ export class AuthService {
         password,
         name
       );
-
+      console.log("User Account => ", userAccount)
       if (userAccount) {
         //call another method here.
         return this.login(email, password);
@@ -37,8 +37,10 @@ export class AuthService {
   }
 
   async login({ email, password }) {
+   
     try {
-      return await this.account.createEmailSession(email, password);
+      const responce = await this.account.createEmailPasswordSession(email, password);
+      return responce
     } catch (error) {
       throw error;
     }

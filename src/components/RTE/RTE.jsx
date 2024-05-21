@@ -13,7 +13,6 @@ function RTE({ name, control, label, defaultValue = "" }) {
           <Editor
             apiKey="wm2dxgovv54xlg6qf9au42wmvejv7m9idalyyz35zlr8wjx8"
             initialValue={defaultValue}
-            onInit={(_evt, editor) => (editorRef.current = editor)}
             init={{
               height: 500,
               menubar: false,

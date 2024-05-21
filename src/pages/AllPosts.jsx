@@ -19,11 +19,12 @@ function AllPosts() {
 
   return (
     <div>
-      {post.map((pt) => (
-        <div key={pt.$id}>
-          <PostCard post={pt} />
-        </div>
-      ))}
+      {post.map((pt) => {
+        console.log("pt --> ",pt);
+        return (<div key={pt.$id}>
+          <PostCard {...pt} />
+        </div>)
+})}
     </div>
   );
 }

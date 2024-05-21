@@ -16,7 +16,7 @@ function LogoutBtn() {
         throw error;
       });
   }
-  return <div>LogoutBtn</div>;
+  return <button onClick={logoutHandler}>LogoutBtn</button>;
 }
 
 export default LogoutBtn;

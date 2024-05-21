@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import appwriteService from "../appwrite/config.js";
 import { Container, PostCard } from "../components";
 function Home() {
-  console.log("Inside Home"); 
+  // console.log("Inside Home"); 
   const [post, setPost] = useState([]);
   useEffect(() => {
 
+    
+
     appwriteService.getPosts([]).then((posts) => {
-      console.log(" AllPost.jsx page --> ", posts);
+      // console.log(" AllPost.jsx page --> ", posts);
       if (posts) {
         setPost(posts.documents);
       }

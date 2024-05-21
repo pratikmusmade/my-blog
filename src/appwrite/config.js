@@ -1,5 +1,5 @@
 import conf from "../conf/conf.js";
-import { Client, Account, ID, Databases, Flag, Query } from "appwrite";
+import { Client, Account, ID, Databases, Flag, Query, Storage } from "appwrite";
 
 //! sulg is --> documetId
 export class Service {
@@ -12,15 +12,23 @@ export class Service {
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
     this.databases = new Databases(this.client);
-    // this.bucket = new Storage(this.client);
+    this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  async createPost({ title, slug , content, featuredImage, status, userId }) {
+    console.log({
+      title,
+      slug : slug + ID.unique(),
+      content: `${content}`,
+      featuredImage,
+      status,
+      userId,
+    });
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
-        slug,
+         ID.unique(),
         {
           title,
           content,
@@ -93,6 +101,17 @@ export class Service {
   }
 
   async uploadFile(file) {
+    // console.log('====================================');
+    // console.log(file);
+    // console.log(conf.appwriteBucketId);
+    // console.log(ID.unique());
+
+    // console.log();
+
+    // console.log('====================================');
+
+    console.log(this.bucket);
+
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,
@@ -100,6 +119,7 @@ export class Service {
         file
       );
     } catch (error) {
+      console.log("Appwrite serive :: uploadFile :: error", error);
       throw error;
     }
   }
@@ -113,8 +133,9 @@ export class Service {
   }
 
   async getFilePreview(fileId) {
+    console.log("fileId -> " ,fileId);
     try {
-      return await this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+      return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
     } catch (error) {
       throw error;
     }

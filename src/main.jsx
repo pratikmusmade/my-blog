@@ -6,7 +6,8 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AddPost, EditPost, Home, LoginPage, AllPosts, Signup } from "./pages";
-import ProtectedRoutes from './components/ProtectedRoute.jsx'
+import ProtectedRoutes from "./components/ProtectedRoute.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +22,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes authentication={false}>
             <LoginPage />
-            {/* <h1>Login</h1> */}
           </ProtectedRoutes>
         ),
       },
@@ -60,18 +60,16 @@ const router = createBrowserRouter([
           </ProtectedRoutes>
         ),
       },
-    //   {
-    //     path: "/post/:slug",
-    //     element: <Post />,
-    //   },
+      //   {
+      //     path: "/post/:slug",
+      //     element: <Post />,
+      //   },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router}/> 
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

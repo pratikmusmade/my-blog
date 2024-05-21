@@ -10,14 +10,17 @@ function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const dispatch = useDispatch();
-  const { register, handelSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const create = async (data) => {
     setError("");
     try {
       const userData = await authService.createAccount(data);
+      console.log("User Data ==> ", userData);
+
       if (userData) {
         const userData = await authService.getCurrentUser();
+        console.log("Current User Data ==> ", userData);
         if (userData) dispatch(login(userData));
         navigate("/");
       }
@@ -31,7 +34,7 @@ function Register() {
       <h2>Register</h2>
       <p>Already have an account??</p> <Link to="/login">Log In</Link>
       {error && <p>{error}</p>}
-      <form onSubmit={handelSubmit(create)}>
+      <form onSubmit={handleSubmit(create)}>
         <div>
           <Input
             label="Full Name"
@@ -48,8 +51,8 @@ function Register() {
             {...register("email", {
               required: true,
               validate: {
-                mathchPatern: (value) =>
-                  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.text(
+                matchPattern: (value) =>
+                  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
                     value
                   ) || "Email address must be a valid address",
               },

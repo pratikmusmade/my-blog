@@ -25,7 +25,7 @@ function App() {
       });
   }, []);
 
-  return loading ? null : <div>
+  return loading ? <h1>Not Authenticated</h1> : <div>
     <Header/>
     <Outlet />
     <Footer/>
