@@ -25,7 +25,7 @@ function PostForm({ post }) {
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  console.log("userData => ",userData);
+  console.log("userData => ",userData.$id);
 
   const submitPosts = async (data) => {
     if (post) {
@@ -46,7 +46,7 @@ function PostForm({ post }) {
       }
     } else {
       const file = await appwriteService.uploadFile(data.image[0]);
-      console.log("UserData ==> ", userData);
+      console.log("UserData ==> ", userData.$id);
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;

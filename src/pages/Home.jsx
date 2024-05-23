@@ -22,12 +22,12 @@ function Home() {
   return (
     <div>
       <Container>
-        Home
+        {/* Home
         {post.map((pt) => (
           <div key={pt.$id}>
             <PostCard post={pt} />
           </div>
-        ))}
+        ))} */}
       </Container>
     </div>
   );

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, PostCard } from "../components";
 import appwriteService from "../appwrite/config.js";
+import { useSelector } from "react-redux";
 
 function AllPosts() {
   const [post, setPost] = useState([]);
-
+  const userData = useSelector((state) => state.auth.userData);
+  console.log("userData => ",userData);
 
   useEffect(() => {
     appwriteService.getPosts([]).then((posts) => {

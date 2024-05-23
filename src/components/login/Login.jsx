@@ -13,14 +13,12 @@ function Login() {
   const [error, setError] = useState("");
 
   const login = async (data) => {
-  
     setError("");
     try {
       const session = await authService.login(data);
       console.log(` Login Session :: `,session);
       if (session) {
         const userData = await authService.getCurrentUser();
-        console.log(` Current user Session ::`, userData);
         if (userData) dispatch(authLogin({userData}));
         navigate("/");
       }
@@ -60,7 +58,7 @@ function Login() {
             })}
           />
 
-          <Button type="submit">Login In</Button>
+          <Button type="submit">Log In</Button>
         </div>
       </form>
     </div>

@@ -101,17 +101,6 @@ export class Service {
   }
 
   async uploadFile(file) {
-    // console.log('====================================');
-    // console.log(file);
-    // console.log(conf.appwriteBucketId);
-    // console.log(ID.unique());
-
-    // console.log();
-
-    // console.log('====================================');
-
-    console.log(this.bucket);
-
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,

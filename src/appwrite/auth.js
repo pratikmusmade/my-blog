@@ -50,7 +50,7 @@ export class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      throw error;
+      console.log("User is not Logged In, ",error);
     }
 
     return null;

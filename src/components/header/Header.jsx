@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, LogoutBtn } from "../index";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import authService from "../../appwrite/auth";
+import { login } from "../../store/authSlice";
 
 function Header() {
+  const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
-  // const authStatus = false
+  const data = useSelector((state) => state.auth);
+  console.log(
+    "User Data in header --> ",
+    data,
+    " User status --> ",
+    authStatus
+  );
   const navigate = useNavigate();
 
   const navItems = [
@@ -36,6 +45,15 @@ function Header() {
       active: authStatus,
     },
   ];
+
+  useEffect(() => {
+    (async () => {
+      if (!data.userData && authStatus) {
+        const userSession = await authService.getCurrentUser();
+        if (userSession) dispatch(login({ userData: userSession }));
+      }
+    })();
+  }, [authStatus]);
   return (
     <header>
       <Container>
@@ -57,14 +75,11 @@ function Header() {
               ) : null
             )}
 
-              {
-                
-                authStatus && (
-                  <li>
-                    <LogoutBtn/>
-                  </li>
-                )
-              }
+            {authStatus && (
+              <li>
+                <LogoutBtn />
+              </li>
+            )}
           </ul>
         </nav>
       </Container>
