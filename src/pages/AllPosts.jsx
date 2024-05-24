@@ -16,9 +16,6 @@ function AllPosts() {
       }
     });
   }, []);
-
-  
-
   return (
     <div>
       {post.map((pt) => {

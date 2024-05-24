@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Select, RTE } from "../index";
 import appwriteService from "../../appwrite/config";
@@ -17,20 +17,21 @@ function PostForm({ post }) {
   } = useForm({
     defaultValues: {
       title: post?.title || "",
-      slug: post?.slug || "",
       content: post?.content || "",
       status: post?.status || "active",
     },
   });
 
+  
   const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState("");
   const userData = useSelector((state) => state.auth.userData);
-  console.log("userData => ",userData.$id);
+
 
   const submitPosts = async (data) => {
     if (post) {
       const file = data.image[0]
-        ? appwriteService.uploadFile(data.image[0])
+        ? await appwriteService.uploadFile(data.image[0])
         : null;
       if (file) {
         appwriteService.deleteFile(post.featuredImage);
@@ -46,7 +47,6 @@ function PostForm({ post }) {
       }
     } else {
       const file = await appwriteService.uploadFile(data.image[0]);
-      console.log("UserData ==> ", userData.$id);
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
@@ -72,6 +72,8 @@ function PostForm({ post }) {
     return "";
   }, []);
 
+ 
+
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "title") {
@@ -84,6 +86,20 @@ function PostForm({ post }) {
     };
   }, [watch, slugTransform, setValue]);
 
+  //useEffect to set Image Featured Image and Slug transform value
+  useEffect(() => {
+    //Set Slug Transform
+    if(post){
+      setValue("slug",slugTransform(post.title))
+      //Set Image
+      appwriteService.getFilePreview(post.featuredImage).then((res) => {
+        console.log(res.href);
+        if (res) setImageSrc(res.href);
+      });
+    }
+
+  }, []);
+
   return (
     <div>
       <form onSubmit={handleSubmit(submitPosts)}>
@@ -91,13 +107,12 @@ function PostForm({ post }) {
           lable="Title :"
           placeholder="Enter Title"
           className=""
-          
           {...register("title", { required: true })}
         />
 
         <Input
           lable="Slug :"
-          placeholder="Enter Title"
+          placeholder="Enter Slug"
           className=""
           {...register("slug", { required: true })}
           onInput={(e) => {
@@ -122,7 +137,7 @@ function PostForm({ post }) {
         {post && (
           <div className="image-container">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={imageSrc}
               alt={post.title}
             />
           </div>

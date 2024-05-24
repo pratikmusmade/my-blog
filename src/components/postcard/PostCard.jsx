@@ -10,7 +10,7 @@ function PostCard({ $id, title, featuredImage }) {
       console.log(res.href);
       if(res) setImageSrc(res.href)
     })
-  })
+  },[])
 
   return (
     <Link to={`/post/${$id}`}>
@@ -18,7 +18,7 @@ function PostCard({ $id, title, featuredImage }) {
         <div className="post-image-container">
           <img src={imageSrc} alt="404"  />
         </div>
-        <h2>{title}</h2>
+        <h2>{title }</h2>
       </div>
     </Link>
   );
