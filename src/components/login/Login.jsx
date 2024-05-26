@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, matchPath, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../../store/authSlice";
 import { Button, Input } from "../index";
 import { useDispatch } from "react-redux";
@@ -10,11 +10,14 @@ import "./login.css";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm("");
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors,isSubmitting },
+    setError,
+  } = useForm("");
 
   const login = async (data) => {
-    setError("");
     try {
       const session = await authService.login(data);
       console.log(` Login Session :: `, session);
@@ -23,7 +26,11 @@ function Login() {
         if (userData) dispatch(authLogin({ userData }));
         navigate("/");
       }
-    } catch (error) {}
+    } catch (error) {
+      setError("root", {
+        message: error.message,
+      });
+    }
   };
 
   return (
@@ -44,16 +51,19 @@ function Login() {
                 Welcome Back !!!
               </h2>
             </header>
-            {error && <p>{error}</p>}
             <form action="" onSubmit={handleSubmit(login)}>
+              {errors.root && (
+                <p style={{ color: "red" }}>{errors.root.message}</p>
+              )}
               <div>
                 <Input
+                disabled={isSubmitting}
                   label="Email"
                   placeholder="Enter your Email"
                   type="email"
                   isMandatory={true}
                   {...register("email", {
-                    required: true,
+                    required: "Please Enter Email",
                     validate: {
                       matchPattern: (value) =>
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
@@ -62,24 +72,44 @@ function Login() {
                     },
                   })}
                 />
+                {errors.email && (
+                  <div style={{ color: "red", paddingInline: ".5rem" }}>
+                    {errors.email.message}
+                  </div>
+                )}
 
                 <Input
+                disabled={isSubmitting}
                   label="Password"
                   placeholder="Enter Password"
                   type="password"
                   {...register("password", {
-                    required: true,
-                    pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    required: "Please Enter the password",
+                    validate: {
+                      myFunc: (value) =>
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+                          value
+                        ) ||
+                        "Password must contain -> capital letter,a number and no special symbols",
+                    },
+                    // pattern:
+                    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                   })}
                 />
-                  <Button className="form-btn" type="submit">
-                    Log In
-                  </Button>
+                {errors.password && (
+                  <div style={{ color: "red", paddingInline: ".5rem" }}>
+                    {errors.password.message}
+                  </div>
+                )}
+
+                <Button disabled={isSubmitting}className="form-btn" type="submit">
+                 {isSubmitting ?"Please Wait " : "Log In"}
+                </Button>
               </div>
             </form>
             <div className="login-form-footer">
-            <p>Don't have a account??</p><Link to="/signup">Sign up</Link>
+              <p>Don't have a account??</p>
+              <Link to="/signup">Sign up</Link>
             </div>
           </section>
         </main>
