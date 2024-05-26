@@ -1,0 +1,21 @@
+.nav-bar{
+    min-height: var( --nav-bar-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .7rem;
+    background-color: var(--nav-bar-background);
+}
+.navigation-items{
+    display: flex;
+    gap: 1rem;
+}
+
+.navigation-items li{
+    list-style: none;
+}
+
+.logo a{
+    color: white;
+    text-decoration: none;
+}

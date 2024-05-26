@@ -1,0 +1,32 @@
+.navbar-btn-style {
+  padding-inline: 0.8rem;
+  padding-block: 0.2rem;
+  border-radius: 0.4rem;
+  border: none;
+  color: white;
+  background-color: transparent;
+  font-size: 1.2rem;
+  transition: ease-in-out 200ms;
+}
+.navbar-btn-style:hover {
+  scale: 1.1;
+  cursor: pointer;
+  background-color: whitesmoke;
+  color: black;
+}
+.form-btn {
+  padding-inline: 1.2rem;
+  padding-block: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  background-color: steelblue;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  transition: ease-in-out 200ms;
+}
+.form-btn:hover {
+  scale: 1.1;
+  cursor: pointer;
+  background-color: rgb(41, 82, 115);
+  color: whitesmoke;
+}

@@ -1,18 +1,21 @@
 import React from "react";
-
+import './button.css'
 function Button({
   children,
   type = "button",
-  bgColor = "",
-  textColor = "",
   className = "",
+  onClick,
   ...props
 }) {
+  function handelBtnClick() {
+    if(onClick) onClick()
+  }
   const btnStyle = {};
-  if (!bgColor) btnStyle.backgroundColor = bgColor;
-  if (!textColor) btnStyle.color = textColor;
+
   return (
-    <button className={` ${className}`} style={btnStyle} type={type} {...props}>
+    <button 
+    onClick={handelBtnClick}
+    className={`${className} `} style={btnStyle} type={type} {...props}>
       {children}
     </button>
   );

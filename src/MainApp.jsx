@@ -69,11 +69,10 @@ const router = createBrowserRouter([
 function MainApp() {
 
   return (
-    <>
         <Provider store={store}>
           <RouterProvider router={router} />
         </Provider>
-    </>
+    
   );
 }
 

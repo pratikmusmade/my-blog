@@ -1,0 +1,23 @@
+.input-container{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    margin: .3rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    flex-grow: 1;
+    padding-inline: .3rem;
+}
+
+.input-container input{
+    padding: .4rem;
+    border: solid gray .1rem;
+    border-radius: .4rem;
+}
+
+.input-container label{
+    color: black;
+    font-size: 1.1rem;
+    
+}

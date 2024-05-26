@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, LogoutBtn } from "../index";
+import { Button, Container, LogoutBtn } from "../index";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import authService from "../../appwrite/auth";
 import { login } from "../../store/authSlice";
-
+import "./header.css";
 function Header() {
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
@@ -20,11 +20,6 @@ function Header() {
 
   const navItems = [
     {
-      name: "Home",
-      slug: "/",
-      active: true,
-    },
-    {
       name: "Login",
       slug: "/login",
       active: !authStatus,
@@ -33,6 +28,15 @@ function Header() {
       name: "Signup",
       slug: "/signup",
       active: !authStatus,
+    },
+   
+  ];
+
+  const navitem2 = [
+    {
+      name: "Home",
+      slug: "/",
+      active: true,
     },
     {
       name: "All Posts",
@@ -44,7 +48,7 @@ function Header() {
       slug: "/add-post",
       active: authStatus,
     },
-  ];
+  ]
 
   useEffect(() => {
     (async () => {
@@ -55,34 +59,39 @@ function Header() {
     })();
   }, [authStatus]);
   return (
-    <header>
-      <Container>
-        <nav>
-          <div className="logo">
-            <Link to="/">
-              <h3>Logo</h3>
-            </Link>
-          </div>
+    <header className="nav-bar">
+      <div className="logo">
+        <Link to="/">
+          <h3>My-Blog</h3>
+        </Link>
+      </div>
 
-          <ul>
-            {navItems.map((item) =>
-              item.active ? (
-                <li key={item.name}>
-                  <button onClick={() => navigate(item.slug)}>
-                    {item.name}
-                  </button>
-                </li>
-              ) : null
-            )}
 
-            {authStatus && (
-              <li>
-                <LogoutBtn />
-              </li>
-            )}
-          </ul>
-        </nav>
-      </Container>
+      <ul className="navigation-items">
+      {navitem2.map((item) =>
+          item.active ? (
+            <li key={item.name}>
+              <Button className="navbar-btn-style" onClick={() => navigate(item.slug)}>{item.name}</Button>
+            </li>
+          ) : null
+        )}
+      </ul>
+      <ul className="navigation-items">
+        {navItems.map((item) =>
+          item.active ? (
+            <li key={item.name}>
+              <Button className="navbar-btn-style" onClick={() => navigate(item.slug)}>{item.name}</Button>
+            </li>
+          ) : null
+        )}
+
+       <li></li>
+          {authStatus && (
+            <li>
+              <LogoutBtn />
+            </li>
+          )}
+      </ul>
     </header>
   );
 }
